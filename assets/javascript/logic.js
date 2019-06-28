@@ -43,6 +43,11 @@ class Bubbles {
         }
     }
 
+    stop() {
+        this.speedX = 0;
+        this.speedY = 0;
+    }
+
     hide() {
         noStroke();
         noFill();
