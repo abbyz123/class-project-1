@@ -1,0 +1,7 @@
+/* body style */
+.jumbotron.jumbotron-fluid {
+    background-color: #7dcdf8d5;
+    background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png"); 
+    /* background-image: url("../images/background.jpg"); */
+    overflow: auto;
+}
