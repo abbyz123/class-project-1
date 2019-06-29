@@ -1,18 +1,20 @@
 let bubbleRadius = 150;
 let bubbleArr = [];
 let bubbleNum = 4;
-let speedOpt = [1, 2];
-let speedDir = [-1, 1];
+let speedOpt = [1, 1];
+let speedDir = [-1, -1];
 
 function setup() {
     let myCanvas = createCanvas(1024, 768);
     myCanvas.parent('bubbleCanvas');
+    frameRate(20);
     
     for (i = 0; i < bubbleNum; i++) {
         bubble = new Bubbles(random(bubbleRadius, width-bubbleRadius), random(bubbleRadius, height-bubbleRadius), bubbleRadius, random(speedDir) * random(speedOpt), random(speedDir) * random(speedOpt), "color");
         bubbleArr.push(bubble);
     }
 }
+
 
 class Bubbles {
     constructor(centerX, centerY, radius, speedX, speedY, color) {
