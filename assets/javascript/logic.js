@@ -4,6 +4,7 @@ let bubbleArr = [];                                 // bubble arrays
 let bubbleNum = 6;                                  // number of bubbles
 let speedOpt = [1, 2];                              // bubble speed options
 let speedDir = [-1, 1];                             // bubble speed directions
+let bubbleWeight = 5;                               // bubble stroke weight
 
 // setup p5 canvas
 function setup() {
@@ -47,19 +48,19 @@ class Bubbles {
         this.centerY += this.speedY;
 
         // if the bubble is hitting the canvas boundary, change the speed direction
-        if ((this.centerX - this.diameter / 2) < 0 || (this.centerX + this.diameter / 2) > width) {
+        if ((this.centerX - this.diameter / 2) < bubbleWeight || (this.centerX + this.diameter / 2) > width - bubbleWeight) {
             this.speedX *= -1;
         }
-        if ((this.centerY - this.diameter / 2) < 0 || (this.centerY + this.diameter / 2) > height) {
+        if ((this.centerY - this.diameter / 2) < bubbleWeight || (this.centerY + this.diameter / 2) > height - bubbleWeight) {
             this.speedY *= -1;
         }
     }
 
     // show bubble
     show() {
-        stroke(255);                // bubble stroke color white (can be adjusted)
-        strokeWeight(5);            // bubble stroke weight 5 px
-        noFill();                   // no fill 
+        stroke(255);                            // bubble stroke color white (can be adjusted)
+        strokeWeight(bubbleWeight);             // bubble stroke weight 5 px
+        noFill();                               // no fill 
         ellipse(this.centerX, this.centerY, this.diameter, this.diameter);
     }
 
@@ -70,7 +71,7 @@ class Bubbles {
             let dx = this.centerX - this.otherBubbles[idx].centerX;
             let dy = this.centerY - this.otherBubbles[idx].centerY;
             let dist = sqrt(dx * dx + dy * dy);
-            let minDist = this.diameter / 2 + this.otherBubbles[idx].diameter / 2;
+            let minDist = this.diameter / 2 + this.otherBubbles[idx].diameter / 2 + bubbleWeight;
             if (dist > minDist) {
                 // do nothing if this bubble is not colliding with other bubbles
                 continue;
@@ -99,6 +100,18 @@ class Bubbles {
 // Define 2D euclidean distance between two coordinates
 function distCalc(x1, y1, x2, y2) {
     return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+}
+
+// go to page2 on mouse pressed
+function mousePressed() {
+    for (let i = 0; i < bubbleArr.length; i++) {
+        let mouseDist = distCalc(mouseX, mouseY, bubbleArr[i].centerX, bubbleArr[i].centerY);
+        if(mouseDist < bubbleArr[i].diameter / 2){
+            window.open("./page2.html", "_self");
+        } else {
+            // do nothing
+        }
+    }
 }
 
 function draw() {
