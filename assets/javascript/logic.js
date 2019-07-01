@@ -7,11 +7,7 @@ $("#search").on("click", function () {
 })
 
 
-var lat
-var lon
-var map;
-var service;
-var infowindow;
+
 
 function lonlat() {
 
@@ -22,9 +18,10 @@ function lonlat() {
 
         var zipCode = input.value;
 
-        var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + zipCode + '&key=AIzaSyDVPLLlJAQ679Frd0gu11khJ9mW02wsvWQ');
+        var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + zipCode + '&key=AIzaSyDEhYxSl1yFFuWzmpaqZqgNbh5XBZpUqPI');
 
         xhr.done(function (data) {
+            console.log(data.results)
             lat = data.results[0].geometry.location.lat
             lon = data.results[0].geometry.location.lng
 
@@ -35,7 +32,11 @@ function lonlat() {
 
     }
 }
-
+var lat
+var lon
+var map;
+var service;
+var infowindow;
 function initMap() {
     var userLocation = new google.maps.LatLng(lat, lon);
 
@@ -80,8 +81,11 @@ function addMarker(location) {
     // console.log(marker);
 }
 
-queryURL= 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=' + input
 
+
+//api for famous quotes
+// queryURL= 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=' + input
+queryURL = 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=famous'
 
 $.ajax({
     url: queryURL,
@@ -90,7 +94,7 @@ $.ajax({
         "X-RapidAPI-Key": "fd935729eemshe08e2a6e5a6c8b3p1b9063jsn940002b244f5",
     },
     method: 'GET',
-    success: function(data){
-      console.log('succes: '+ data[0].quote);
+    success: function (data) {
+        console.log('succes: ' + data[0].quote);
     }
-  });
+});
