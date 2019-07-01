@@ -52,7 +52,7 @@ class Bubbles {
     // move the bubble with pre-defined speed
     move() {
         // if the bubble is stopped, give it random kick!
-        if(true === this.stopOrNot) {
+        if (true === this.stopOrNot) {
             this.stopOrNot = false;
             this.speedX = random(speedOpt) * random(speedDir);
             this.speedY = random(speedOpt) * random(speedDir);
@@ -83,7 +83,7 @@ class Bubbles {
         fill(textColor);                                                                 // set fill color
         textSize(bubbleTextSize);                                                        // set font size 
         textAlign(CENTER);                                                               // center align the text
-        text((this.id + 1).toString(), this.centerX, this.centerY+bubbleTextSize/4);     // show stress level, adjust text to be at bubble center
+        text((this.id + 1).toString(), this.centerX, this.centerY + bubbleTextSize / 4);     // show stress level, adjust text to be at bubble center
     }
 
     // bouncing algorithm for bubbles
@@ -128,15 +128,21 @@ function distCalc(x1, y1, x2, y2) {
 function mousePressed() {
     for (let i = 0; i < bubbleArr.length; i++) {
         let mouseDist = distCalc(mouseX, mouseY, bubbleArr[i].centerX, bubbleArr[i].centerY);
-        if(mouseDist < bubbleArr[i].diameter / 2){
-            // build a json structure storing user information and save it to the cookie
-            userInfo = {
-                            stressLevel : (bubbleArr[i].id + 1),          // bubble id as stress level
-                            name : "TBD",                                 // name to be determined for now at front page
-                            hoursNeeded : "TBD",                          // hours needed to be determined
-                            zipcode: "TBD"                                // zip code to be determined
-                        };
-            Cookies.set("localuser", userInfo);                           // use "localhost" as the key for cookie lookup in the entire site
+        if (mouseDist < bubbleArr[i].diameter / 2) {
+            try {
+                // build a json structure storing user information and save it to the localStorage
+                userInfo = {
+                    stressLevel: (bubbleArr[i].id + 1),                                // bubble id as stress level
+                    name: "TBD",                                                       // name to be determined for now at front page
+                    hoursNeeded: "TBD",                                                // hours needed to be determined
+                    zipcode: "TBD"                                                     // zip code to be determined
+                };
+                window.localStorage.setItem("localuser", JSON.stringify(userInfo));    // use "localuser" as the key for localStorage lookup in the entire site
+
+            } catch (e) {
+                console.log("error occurs while saving user info");
+                console.log(e);
+            }
             window.open("./page2.html", "_self");
         } else {
             // do nothing
@@ -151,8 +157,8 @@ function draw() {
         bubbleArr[i].show();
         bubbleArr[i].collide();
         let mouseDist = distCalc(mouseX, mouseY, bubbleArr[i].centerX, bubbleArr[i].centerY);
-        if(mouseDist < bubbleArr[i].diameter / 2){
-           bubbleArr[i].stop();
+        if (mouseDist < bubbleArr[i].diameter / 2) {
+            bubbleArr[i].stop();
         } else {
             bubbleArr[i].move();
         }
