@@ -5,6 +5,7 @@ let bubbleNum = 6;                                  // number of bubbles
 let speedOpt = [1, 2];                              // bubble speed options
 let speedDir = [-1, 1];                             // bubble speed directions
 let bubbleWeight = 5;                               // bubble stroke weight
+let bubbleTextSize = 50;                            // bubble text size;
 
 // setup p5 canvas
 function setup() {
@@ -58,10 +59,18 @@ class Bubbles {
 
     // show bubble
     show() {
+        // create bubble as ellipse
         stroke(255);                            // bubble stroke color white (can be adjusted)
         strokeWeight(bubbleWeight);             // bubble stroke weight 5 px
         noFill();                               // no fill 
         ellipse(this.centerX, this.centerY, this.diameter, this.diameter);
+
+        // show the stress level as a number on bubble
+        let textColor = color(255, 255, 255)                                             // white text. can change later
+        fill(textColor);                                                                 // set fill color
+        textSize(bubbleTextSize);                                                        // set font size 
+        textAlign(CENTER);                                                               // center align the text
+        text((this.id + 1).toString(), this.centerX, this.centerY+bubbleTextSize/4);     // show stress level, adjust text to be at bubble center
     }
 
     // bouncing algorithm for bubbles
