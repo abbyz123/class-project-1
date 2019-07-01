@@ -24,6 +24,8 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+
+
 var map;
 
 
@@ -76,10 +78,17 @@ function getZipcode() {
 
         console.log(userLocation)
 
+        var options = {
+            zoom: 11,
+            center: { lat: lat, lng: lon }
+        }
+    
+        map = new google.maps.Map(document.getElementById('map'), options);
+
         var request = {
             location: userLocation,
-            radius: "500",
-            query: "restaurant"
+            radius: "5000",
+            query: "hike"
         };
         console.log(document.getElementById('map'));
         console.log(map)
@@ -141,7 +150,7 @@ $(document).ready(function () {
 
 function initMap() {
     var options = {
-        zoom: 8,
+        zoom: 12,
         center: { lat: 34.397, lng: -118.2437 }
     }
 
