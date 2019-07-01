@@ -3,3 +3,21 @@
     height: 400px;
     background-color: grey;
   }
+/* body style */
+.jumbotron.jumbotron-fluid {
+    background-color: transparent;
+    /* background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png");  */
+    /* background-image: url("../images/background.jpg"); */
+    overflow: auto;
+}
+
+body {
+    background-color: transparent;
+    /* background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png");  */
+    /* background-image: url("../images/background.jpg"); */
+    overflow: auto;
+}
+html {
+    background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png");
+    background-color: #7dcdf8d5;
+}
