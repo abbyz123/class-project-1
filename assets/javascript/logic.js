@@ -107,6 +107,14 @@ function mousePressed() {
     for (let i = 0; i < bubbleArr.length; i++) {
         let mouseDist = distCalc(mouseX, mouseY, bubbleArr[i].centerX, bubbleArr[i].centerY);
         if(mouseDist < bubbleArr[i].diameter / 2){
+            // build a json structure storing user information and save it to the cookie
+            userInfo = {
+                            stressLevel : (bubbleArr[i].id + 1),          // bubble id as stress level
+                            name : "TBD",                                 // name to be determined for now at front page
+                            hoursNeeded : "TBD",                          // hours needed to be determined
+                            zipcode: "TBD"                                // zip code to be determined
+                        };
+            Cookies.set("localuser", userInfo);                           // use "localhost" as the key for cookie lookup in the entire site
             window.open("./page2.html", "_self");
         } else {
             // do nothing
