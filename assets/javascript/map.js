@@ -24,7 +24,7 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
-
+var map;
 
 
 
@@ -36,7 +36,7 @@ var database = firebase.database();
 $('form').submit(function (event) {
     event.preventDefault();
 })
-$("#submit").on("click", function(){
+$("#submit").on("click", function () {
     putZipcode()
 })
 
@@ -50,13 +50,16 @@ function putZipcode() {
     console.log(input)
     // if (input === 5) {
 
-        localStorage.setItem('zipcode', input);
+    localStorage.setItem('zipcode', input);
 
-        window.open("./page4.html", "_self");
+    window.open("./page4.html", "_self");
     // }
 }
 
+
 function getZipcode() {
+    var lat;
+    var lon;
     var input = localStorage.getItem('zipcode');
     console.log(input)
     var lonlat = document.getElementById('lonlat');
@@ -64,14 +67,28 @@ function getZipcode() {
 
     var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyDEhYxSl1yFFuWzmpaqZqgNbh5XBZpUqPI');
 
+
+
     xhr.done(function (data) {
+        lat = data.results[0].geometry.location.lat;
+        lon = data.results[0].geometry.location.lng;
+        var userLocation = new google.maps.LatLng(lat, lon);
 
-        database.ref().push({
-            lat: data.results[0].geometry.location.lat,
-            lon: data.results[0].geometry.location.lng
+        console.log(userLocation)
 
-        })
+        var request = {
+            location: userLocation,
+            radius: "500",
+            query: "restaurant"
+        };
+        console.log(document.getElementById('map'));
+        console.log(map)
+
+
+        service.textSearch(request, callback);
     });
+
+
 }
 
 
@@ -79,44 +96,46 @@ function getZipcode() {
 
 
 
-$('#map').ready(function () {
-
-
+$(document).ready(function () {
+    if (window.location.href.indexOf('page4') > 0) {
         getZipcode()
+    }
+
+    // var lat;
+    // var lon;
+
+    // database.ref().on("child_added", function (childSnapshot) {
+    //     console.log(childSnapshot.val());
+
+    //     lat = childSnapshot.val().lat
+    //     lon = childSnapshot.val().lon
+
+    // });
 
 
-        database.ref().on("child_added", function (childSnapshot) {
-            console.log(childSnapshot.val());
+    // var map;
+    // var service;
+    // var infowindow;
 
-            lat = childSnapshot.val().lat
-            lon = childSnapshot.val().lat
+    // function loadMap() {
+    //     var userLocation = new google.maps.LatLng(lat, lon);
 
-        });
+    //     console.log(userLocation)
 
-
-        var map;
-        var service;
-        var infowindow;
-
-        function childAdded(lat, lon) {
-            var userLocation = new google.maps.LatLng(lat, lon);
-
-            console.log(userLocation)
-
-            var request = {
-                location: userLocation,
-                radius: "500",
-                query: "restaurant"
-            };
-            console.log(document.getElementById('map'));
-            console.log(map)
+    //     var request = {
+    //         location: userLocation,
+    //         radius: "500",
+    //         query: "restaurant"
+    //     };
+    //     console.log(document.getElementById('map'));
+    //     console.log(map)
 
 
-            service.textSearch(request, callback);
+    //     service.textSearch(request, callback);
 
-        }
-    
+    // }
 })
+
 
 
 
@@ -133,6 +152,7 @@ function initMap() {
 
 
 function callback(results, status) {
+    console.log(results, status)
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
             var place = results[i];
