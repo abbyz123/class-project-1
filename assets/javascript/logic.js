@@ -6,17 +6,30 @@ let speedOpt = [1, 2];                              // bubble speed options
 let speedDir = [-1, 1];                             // bubble speed directions
 let bubbleWeight = 5;                               // bubble stroke weight
 let bubbleTextSize = 50;                            // bubble text size;
+let canvasWidth = 1024;                             // canvas width (for standard laptop)
+let canvasHeight = 768;                             // canvas height (for standard laptop)
+
+// for future update: need to verify that canvasWidthSegNum * canvasHeightSegNum === bubbleNum
+let canvasWidthSegNum = 3;                          // devide canvas width into 3 segments
+let canvasHeightSegNum = 2;                         // device canvas height into 2 segments
+let canvasWidthSegLen = canvasWidth / canvasWidthSegNum;        // segment width length
+let canvasHeightSegLen = canvasHeight / canvasHeightSegNum;     // segment height length
 
 // setup p5 canvas
 function setup() {
     // Setup canvas
-    let myCanvas = createCanvas(1024, 768);         // 1024 x 768 for standard laptop
-    myCanvas.parent('bubbleCanvas');                // canvas under the container
-    frameRate(25);                                  // frame rate = 25 fps
+    let myCanvas = createCanvas(canvasWidth, canvasHeight);    // create canvas
+    myCanvas.parent('bubbleCanvas');                           // canvas under the container
+    frameRate(25);                                             // frame rate = 25 fps
 
     // create bubbles with random position and push the bubble objects into global array
-    for (i = 0; i < bubbleNum; i++) {
-        bubble = new Bubbles(i, random(bubbleDiameter, width - bubbleDiameter), random(bubbleDiameter, height - bubbleDiameter), bubbleDiameter, random(speedDir) * random(speedOpt), random(speedDir) * random(speedOpt), bubbleArr, "color");
+    for (let i = 0; i < bubbleNum; i++) {
+        // devide the canvas into six segment. Bubbles' initial location is at the center of each segment
+        let segCol = i % canvasWidthSegNum;                    // determine column
+        let segRow = floor(i / canvasWidthSegNum);             // determine row
+        let colPos = (segCol + 0.5) * canvasWidthSegLen;       // x position
+        let rowPos = (segRow + 0.5) * canvasHeightSegLen;      // y position
+        bubble = new Bubbles(i, colPos, rowPos, bubbleDiameter, random(speedDir) * random(speedOpt), random(speedDir) * random(speedOpt), bubbleArr, "color");
         bubbleArr.push(bubble);
     }
 }
