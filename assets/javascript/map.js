@@ -144,6 +144,12 @@ function callback(results, status) {
       var place = results[i];
       // console.log(place);
       addMarker(results[i].geometry.location);
+      // fetch activity info
+      let currActivity = $("<div class='container'>");
+      currActivity.append($("<h3>").text(results[i].name));
+      currActivity.append($("<p>").text(results[i].formatted_address));
+      currActivity.append($("<p>").text("rating: " + results[i].rating));
+      $("#activity").append(currActivity);
     }
   }
 }
