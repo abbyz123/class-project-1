@@ -55,6 +55,12 @@ function putZipcode() {
   console.log(input)
   // if (input === 5) {
 
+    if( input == "" || isNaN( input ) ||
+            input.length != 5 ) {
+            // alert( "Please provide a zip in the format #####." );
+            return false;
+         }
+
   localStorage.setItem('zipcode', input);
 
   window.open("./page4.html", "_self");
