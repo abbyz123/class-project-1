@@ -10,7 +10,7 @@ let canvasWidth = 800;                             // canvas width (for standard
 let canvasHeight = 400;                             // canvas height (for standard laptop)
 
 // for future update: need to verify that canvasWidthSegNum * canvasHeightSegNum === bubbleNum
-let canvasWidthSegNum = 3;                          // devide canvas width into 3 segments
+let canvasWidthSegNum = 2;                          // devide canvas width into 3 segments
 let canvasHeightSegNum = 2;                         // device canvas height into 2 segments
 let canvasWidthSegLen = canvasWidth / canvasWidthSegNum;        // segment width length
 let canvasHeightSegLen = canvasHeight / canvasHeightSegNum;     // segment height length
@@ -79,7 +79,7 @@ class Bubbles {
         ellipse(this.centerX, this.centerY, this.diameter, this.diameter);
 
         // show the stress level as a number on bubble
-        let textColor = color(255, 255, 255)                                             // white text. can change later
+        let textColor = color("pink")                                             // white text. can change later
         fill(textColor);                                                                 // set fill color
         textSize(bubbleTextSize);                                                        // set font size 
         textAlign(CENTER);                                                               // center align the text
@@ -152,7 +152,7 @@ function mousePressed() {
 
 function draw() {
     // background color black (can be adjusted)
-    background('#222222');
+    background('#7dcdf8d5');
     for (let i = 0; i < bubbleArr.length; i++) {
         bubbleArr[i].show();
         bubbleArr[i].collide();
