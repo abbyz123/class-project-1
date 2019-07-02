@@ -1,13 +1,16 @@
 // load cookie
 let userInfo; // load json user info from cookie
-let userStressLevel = 3; // set default stress level
-let userHoursNeeded = 2; // set default user hours needed
+let userStressLevel; // set default stress level
+let userHoursNeeded; // set default user hours needed
 
 try {
   userInfo = JSON.parse(window.localStorage.getItem("localuser"));
-  // userStressLevel = userInfo.stressLevel;
-  // userHoursNeeded = userInfo.hoursNeeded;
+  userStressLevel = userInfo.stressLevel;
+  userHoursNeeded = userInfo.hoursNeeded;
 } catch (exception) {
+  // set default stress level and hours needed if localStorage throws exception
+  userStressLevel = 3;
+  userHoursNeeded = 2; 
   console.log("error occurs for localStorage");
   console.log(exception);
 }
