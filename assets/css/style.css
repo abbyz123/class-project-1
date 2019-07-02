@@ -9,12 +9,16 @@
     /* background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png");  */
     /* background-image: url("../images/background.jpg"); */
     overflow: auto;
-    /* width: 800px; */
-  
+ }
+h1{
+    font-family: 'Bangers';font-size: 32px;
 }
+
 p.lead{
     font-weight: 400;
     color: white;
+    font-family: 'Sofia';font-size: 18px;
+    font-style: italic;
 }
 body {
     background-color: transparent;
@@ -31,4 +35,18 @@ html {
 overflow-y: scroll;
 width: 450px;
 height: 400px;
+}
+
+#active {
+    text-align: center;
+    font-family: 'Bangers';font-size: 22px;
+    letter-spacing: 2px;
+}
+
+.qotd{
+    font-style: italic;
+    font-family: 'Sofia';font-size: 18px;
+    width: 400px;
+    align-content: center;
+    margin: 10px; 
 }

@@ -107,23 +107,24 @@ function getZipcode() {
 
         if (userStressLevel === 4 && userHoursNeeded < 4) {
             request.query = "club"
-            $('#active').text("Let me recommend you some club activities!")
+            $('#active').text("You need to dance it out! Here are some fun clubs!")
         }
         if (userStressLevel === 3 && userHoursNeeded < 4) {
             request.query = "hike"
-            $('#active').text("Let me recommend you some hike activities!")
+            $('#active').text("Getting into nature does wonders for your mood! Check out these hikes!")
         }
         if (userStressLevel === 2 && userHoursNeeded < 4) {
             request.query = "restraunt"
-            $('#active').text("Let me recommend you some eating activities!")
+            $('#active').text("You just need a delicious meal! Try one of these restauraunts")
         }
         if (userStressLevel === 1 && userHoursNeeded < 4) {
             request.query = "theather"
-            $('#active').text("Let me recommend you some movie activities!")
+            $('#active').text("You just need to decompress at the movies!")
         }
 
         if (userHoursNeeded > 4 ){
             request.query = "theme parks"
+            $('#active').text("Take the day, touch base with your inner child, and go to a theme park!")
         }
 
         service.textSearch(request, callback);
@@ -221,8 +222,9 @@ console.log(queryURL)
         success: function (data) {
             console.log(data.quote);
             var newDiv = $("<div>").append(
-                $("<div>").text(data.by),
-                $("<div>").text(data.quote),
+              $("<div>").text(data.quote),  
+              $("<div>").text( "~ "+ data.by),
+                
 
 
             );
