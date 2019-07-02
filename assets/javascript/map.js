@@ -1,7 +1,9 @@
 // load cookie
+
 let userInfo; // load json user info from cookie
 let userStressLevel; // set default stress level
 let userHoursNeeded; // set default user hours needed
+
 
 try {
   userInfo = JSON.parse(window.localStorage.getItem("localuser"));
@@ -69,11 +71,61 @@ function putZipcode() {
 
 
 function getZipcode() {
-  var lat;
-  var lon;
-  var input = localStorage.getItem('zipcode');
-  console.log(input)
-  var lonlat = document.getElementById('lonlat');
+
+    var lat;
+    var lon;
+    var input = localStorage.getItem('zipcode');
+    console.log(input)
+    var lonlat = document.getElementById('lonlat');
+
+
+    var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyDEhYxSl1yFFuWzmpaqZqgNbh5XBZpUqPI');
+
+
+
+    xhr.done(function (data) {
+
+        lat = data.results[0].geometry.location.lat;
+        lon = data.results[0].geometry.location.lng;
+
+        var userLocation = new google.maps.LatLng(lat, lon);
+
+        console.log(userLocation)
+
+        var options = {
+            zoom: 11,
+            center: { lat: lat, lng: lon }
+        }
+
+        map = new google.maps.Map(document.getElementById('map'), options);
+        var request = {
+            location: userLocation,
+            radius: "5000",
+            query: ""
+        }
+
+
+        if (userStressLevel === 4 && userHoursNeeded < 4) {
+            request.query = "club"
+        }
+        if (userStressLevel === 3 && userHoursNeeded < 4) {
+            request.query = "hike"
+        }
+        if (userStressLevel === 2 && userHoursNeeded < 4) {
+            request.query = "restraunt"
+        }
+        if (userStressLevel === 1 && userHoursNeeded < 4) {
+            request.query = "theather"
+        }
+
+        if (userHoursNeeded > 4 ){
+            request.query = "theme parks"
+        }
+
+
+        // console.log(document.getElementById('map'));
+        // console.log(map)
+
 
 
   var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyDEhYxSl1yFFuWzmpaqZqgNbh5XBZpUqPI');
@@ -87,41 +139,15 @@ function getZipcode() {
 
     console.log(userLocation)
 
-    var options = {
-      zoom: 11,
-      center: {
-        lat: lat,
-        lng: lon
-      }
+
+
+$(document).ready(function () {
+    if (window.location.href.indexOf('page4') > 0) {
+        getZipcode()
+        getQuote()
     }
 
-    map = new google.maps.Map(document.getElementById('map'), options);
 
-    var request = {
-      location: userLocation,
-      radius: "5000",
-      query: "hike"
-    };
-    console.log(document.getElementById('map'));
-    console.log(map)
-
-
-    service.textSearch(request, callback);
-  });
-
-
-}
-
-
-
-
-
-
-$(document).ready(function() {
-  if (window.location.href.indexOf('page4') > 0) {
-    console.log('document ready');
-    getZipcode()
-  }
 })
 
 
@@ -156,11 +182,13 @@ function callback(results, status) {
       currActivity.append($("<p>").text(results[i].formatted_address));
       currActivity.append($("<p>").text("rating: " + results[i].rating));
       $("#activity").append(currActivity);
+
     }
   }
 }
 
 function addMarker(location) {
+
   // console.log(event);
   var marker = new google.maps.Marker({
     position: new google.maps.LatLng(location.lat(), location.lng()),
@@ -169,26 +197,37 @@ function addMarker(location) {
   // console.log(marker);
   marker.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");
   // console.log(marker);
+
 }
 
 
 
 //api for famous quotes
-// // queryURL= 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=' + input
-// queryURL = 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=famous'
+// queryURL= 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=' + input
+function getQuote() {
 
-// $.ajax({
-//     url: queryURL,
-//     headers: {
-//         "X-RapidAPI-Host": "andruxnet-random-famous-quotes.p.rapidapi.com",
-//         "X-RapidAPI-Key": "fd935729eemshe08e2a6e5a6c8b3p1b9063jsn940002b244f5",
-//     },
-//     method: 'GET',
-//     success: function (data) {
-//         console.log('succes: ' + data[0].quote);
-//     }
-// });
 
+    queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~inspire.json'
+
+    $.ajax({
+        url: queryURL,
+        headers: {
+            "X-RapidAPI-Host": "yusufnb-quotes-v1.p.rapidapi.com",
+            "X-RapidAPI-Key": "fd935729eemshe08e2a6e5a6c8b3p1b9063jsn940002b244f5",
+        },
+        method: 'GET',
+        success: function (data) {
+            console.log(data.quote);
+            var newDiv = $("<div>").append(
+                $("<div>").text(data.by),
+                $("<div>").text(data.quote),
+
+
+            );
+            $('#quote').append(newDiv)
+        }
+    });
+}
 
 
 
