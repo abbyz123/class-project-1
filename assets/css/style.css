@@ -51,4 +51,14 @@ height: 400px;
     width: 400px;
     align-content: center;
     margin: 10px; 
+    color: lightgreen;
+}
+
+#textquotes{
+    font-size: 30px;
+}
+
+#reset{
+    color:white;
+    background-color:lightblue;
 }
