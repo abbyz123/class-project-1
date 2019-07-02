@@ -1,6 +1,6 @@
 // load cookie
 let userInfo;                                   // load json user info from cookie
-let userStressLevel = 2;                        // set default stress level
+let userStressLevel = 4;                        // set default stress level
 let userHoursNeeded = 2;                        // set default user hours needed
 
 try {
@@ -86,37 +86,28 @@ function getZipcode() {
         }
 
         map = new google.maps.Map(document.getElementById('map'), options);
+        var request = {
+            location: userLocation,
+            radius: "5000",
+            query: ""
+        }
+
+
         if (userStressLevel === 4 && userHoursNeeded >= 2) {
-            var request = {
-                location: userLocation,
-                radius: "5000",
-                query:"club"
-            }
+            request.query = "club"
         }
-
         if (userStressLevel === 3 && userHoursNeeded >= 2) {
-            var request = {
-                location: userLocation,
-                radius: "5000",
-                query: "hike"
-            };
+            request.query = "hike"
+        }
+        if (userStressLevel === 2 && userHoursNeeded >= 2) {
+            request.query = "restraunt"
+        }
+        if (userStressLevel === 1 && userHoursNeeded >= 2) {
+            request.query = "theather"
+        }
 
-        }
-        if (userStressLevel === 2 && userHoursNeeded >= 2){
-            var request = {
-                location: userLocation,
-                radius: "5000",
-                query:"restraunt"
-            }
-        }
-        if (userStressLevel === 1 && userHoursNeeded >= 2){
-            var request = {
-                location: userLocation,
-                radius: "5000",
-                query:"theater"
-            }
-        }
-        
+        if (userHoursNee)
+
 
         // console.log(document.getElementById('map'));
         // console.log(map)
@@ -182,29 +173,29 @@ function addMarker(location) {
 
 //api for famous quotes
 // queryURL= 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=' + input
-function getQuote(){
+function getQuote() {
 
 
-queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~inspire.json'
+    queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~inspire.json'
 
-$.ajax({
-    url: queryURL,
-    headers: {
-        "X-RapidAPI-Host": "yusufnb-quotes-v1.p.rapidapi.com",
-        "X-RapidAPI-Key": "fd935729eemshe08e2a6e5a6c8b3p1b9063jsn940002b244f5",
-    },
-    method: 'GET',
-    success: function (data) {
-        console.log(data.quote);
-        var newDiv = $("<div>").append(
-            $("<div>").text(data.by),
-            $("<div>").text(data.quote),
-            
-            
-          );
-        $('#quote').append(newDiv)
-    }
-});
+    $.ajax({
+        url: queryURL,
+        headers: {
+            "X-RapidAPI-Host": "yusufnb-quotes-v1.p.rapidapi.com",
+            "X-RapidAPI-Key": "fd935729eemshe08e2a6e5a6c8b3p1b9063jsn940002b244f5",
+        },
+        method: 'GET',
+        success: function (data) {
+            console.log(data.quote);
+            var newDiv = $("<div>").append(
+                $("<div>").text(data.by),
+                $("<div>").text(data.quote),
+
+
+            );
+            $('#quote').append(newDiv)
+        }
+    });
 }
 
 
