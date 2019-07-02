@@ -1,7 +1,7 @@
 // global variables
 let bubbleDiameter = 120;                           // bubble diameter
 let bubbleArr = [];                                 // bubble arrays
-let bubbleNum = 6;                                  // number of bubbles
+let bubbleNum = 4;                                  // number of bubbles
 let speedOpt = [1, 2];                              // bubble speed options
 let speedDir = [-1, 1];                             // bubble speed directions
 let bubbleWeight = 5;                               // bubble stroke weight

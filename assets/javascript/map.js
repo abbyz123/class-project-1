@@ -1,7 +1,9 @@
 // load cookie
+
 let userInfo; // load json user info from cookie
 let userStressLevel; // set default stress level
 let userHoursNeeded; // set default user hours needed
+
 
 try {
   userInfo = JSON.parse(window.localStorage.getItem("localuser"));
@@ -9,8 +11,8 @@ try {
   userHoursNeeded = userInfo.hoursNeeded;
 } catch (exception) {
   // set default stress level and hours needed if localStorage throws exception
-  userStressLevel = 3;
-  userHoursNeeded = 2; 
+  userStressLevel = 
+  userHoursNeeded = 
   console.log("error occurs for localStorage");
   console.log(exception);
 }
@@ -69,66 +71,82 @@ function putZipcode() {
 
 
 function getZipcode() {
-  var lat;
-  var lon;
-  var input = localStorage.getItem('zipcode');
-  console.log(input)
-  var lonlat = document.getElementById('lonlat');
+
+    var lat;
+    var lon;
+    var input = localStorage.getItem('zipcode');
+    console.log(input)
+    var lonlat = document.getElementById('lonlat');
 
 
-  var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyDEhYxSl1yFFuWzmpaqZqgNbh5XBZpUqPI');
+    var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyDEhYxSl1yFFuWzmpaqZqgNbh5XBZpUqPI');
 
 
 
-  xhr.done(function(data) {
-    lat = data.results[0].geometry.location.lat;
-    lon = data.results[0].geometry.location.lng;
-    var userLocation = new google.maps.LatLng(lat, lon);
+    xhr.done(function (data) {
 
-    console.log(userLocation)
+        lat = data.results[0].geometry.location.lat;
+        lon = data.results[0].geometry.location.lng;
 
-    var options = {
-      zoom: 11,
-      center: {
-        lat: lat,
-        lng: lon
-      }
-    }
+        var userLocation = new google.maps.LatLng(lat, lon);
 
-    map = new google.maps.Map(document.getElementById('map'), options);
+        console.log(userLocation)
 
-    var request = {
-      location: userLocation,
-      radius: "5000",
-      query: "hike"
-    };
-    console.log(document.getElementById('map'));
-    console.log(map)
+        var options = {
+            zoom: 11,
+            center: { lat: lat, lng: lon }
+        }
+
+        map = new google.maps.Map(document.getElementById('map'), options);
+        var request = {
+            location: userLocation,
+            radius: "5000",
+            query: ""
+        }
 
 
-    service.textSearch(request, callback);
-  });
+        if (userStressLevel === 4 && userHoursNeeded < 4) {
+            request.query = "club"
+            $('#active').text("Let me recommend you some club activities!")
+        }
+        if (userStressLevel === 3 && userHoursNeeded < 4) {
+            request.query = "hike"
+            $('#active').text("Let me recommend you some hike activities!")
+        }
+        if (userStressLevel === 2 && userHoursNeeded < 4) {
+            request.query = "restraunt"
+            $('#active').text("Let me recommend you some eating activities!")
+        }
+        if (userStressLevel === 1 && userHoursNeeded < 4) {
+            request.query = "theather"
+            $('#active').text("Let me recommend you some movie activities!")
+        }
+
+        if (userHoursNeeded > 4 ){
+            request.query = "theme parks"
+        }
+
+        service.textSearch(request, callback);
+        // console.log(document.getElementById('map'));
+        // console.log(map)
 
 
+    })
 }
 
 
-
-
-
-
-$(document).ready(function() {
-  if (window.location.href.indexOf('page4') > 0) {
-    console.log('document ready');
-    getZipcode()
-  }
+$(document).ready(function () {
+    if (window.location.href.indexOf('page4') > 0) {
+        getZipcode()
+        getQuote()
+    }
 })
 
 
 
 
 function initMap() {
-  console.log('initMap');
+//   console.log('initMap');
   var options = {
     zoom: 12,
     center: {
@@ -156,11 +174,13 @@ function callback(results, status) {
       currActivity.append($("<p>").text(results[i].formatted_address));
       currActivity.append($("<p>").text("rating: " + results[i].rating));
       $("#activity").append(currActivity);
+
     }
   }
 }
 
 function addMarker(location) {
+
   // console.log(event);
   var marker = new google.maps.Marker({
     position: new google.maps.LatLng(location.lat(), location.lng()),
@@ -169,26 +189,47 @@ function addMarker(location) {
   // console.log(marker);
   marker.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");
   // console.log(marker);
+
 }
 
 
 
 //api for famous quotes
-// // queryURL= 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=' + input
-// queryURL = 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=famous'
+// queryURL= 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=' + input
+function getQuote() {
 
-// $.ajax({
-//     url: queryURL,
-//     headers: {
-//         "X-RapidAPI-Host": "andruxnet-random-famous-quotes.p.rapidapi.com",
-//         "X-RapidAPI-Key": "fd935729eemshe08e2a6e5a6c8b3p1b9063jsn940002b244f5",
-//     },
-//     method: 'GET',
-//     success: function (data) {
-//         console.log('succes: ' + data[0].quote);
-//     }
-// });
+if (userStressLevel === 1){
+    queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~cheer.json'
+}
+if (userStressLevel === 2){
+    queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~happy.json'
+}
+if (userStressLevel === 3){
+    queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~active.json'
+}
+if (userStressLevel === 4){
+    queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~inspire.json'
+}
+console.log(queryURL)
+    $.ajax({
+        url: queryURL,
+        headers: {
+            "X-RapidAPI-Host": "yusufnb-quotes-v1.p.rapidapi.com",
+            "X-RapidAPI-Key": "fd935729eemshe08e2a6e5a6c8b3p1b9063jsn940002b244f5",
+        },
+        method: 'GET',
+        success: function (data) {
+            console.log(data.quote);
+            var newDiv = $("<div>").append(
+                $("<div>").text(data.by),
+                $("<div>").text(data.quote),
 
+
+            );
+            $('#quote').append(newDiv)
+        }
+    });
+}
 
 
 
