@@ -1,7 +1,7 @@
 // load cookie
 let userInfo;                                   // load json user info from cookie
 let userStressLevel = 4;                        // set default stress level
-let userHoursNeeded = 2;                        // set default user hours needed
+let userHoursNeeded = 3;                        // set default user hours needed
 
 try {
     userInfo = JSON.parse(window.localStorage.getItem("localuser"));
@@ -93,20 +93,22 @@ function getZipcode() {
         }
 
 
-        if (userStressLevel === 4 && userHoursNeeded >= 2) {
+        if (userStressLevel === 4 && userHoursNeeded < 4) {
             request.query = "club"
         }
-        if (userStressLevel === 3 && userHoursNeeded >= 2) {
+        if (userStressLevel === 3 && userHoursNeeded < 4) {
             request.query = "hike"
         }
-        if (userStressLevel === 2 && userHoursNeeded >= 2) {
+        if (userStressLevel === 2 && userHoursNeeded < 4) {
             request.query = "restraunt"
         }
-        if (userStressLevel === 1 && userHoursNeeded >= 2) {
+        if (userStressLevel === 1 && userHoursNeeded < 4) {
             request.query = "theather"
         }
 
-        if (userHoursNee)
+        if (userHoursNeeded > 4 ){
+            request.query = "theme parks"
+        }
 
 
         // console.log(document.getElementById('map'));
