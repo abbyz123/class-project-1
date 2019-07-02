@@ -1,13 +1,13 @@
 // global variables
-let bubbleDiameter = 150;                           // bubble diameter
+let bubbleDiameter = 120;                           // bubble diameter
 let bubbleArr = [];                                 // bubble arrays
 let bubbleNum = 4;                                  // number of bubbles
 let speedOpt = [1, 2];                              // bubble speed options
 let speedDir = [-1, 1];                             // bubble speed directions
 let bubbleWeight = 5;                               // bubble stroke weight
 let bubbleTextSize = 50;                            // bubble text size;
-let canvasWidth = 1024;                             // canvas width (for standard laptop)
-let canvasHeight = 768;                             // canvas height (for standard laptop)
+let canvasWidth = 800;                             // canvas width (for standard laptop)
+let canvasHeight = 400;                             // canvas height (for standard laptop)
 
 // for future update: need to verify that canvasWidthSegNum * canvasHeightSegNum === bubbleNum
 let canvasWidthSegNum = 3;                          // devide canvas width into 3 segments
