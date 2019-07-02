@@ -11,8 +11,8 @@ try {
   userHoursNeeded = userInfo.hoursNeeded;
 } catch (exception) {
   // set default stress level and hours needed if localStorage throws exception
-  userStressLevel = 3;
-  userHoursNeeded = 2; 
+  userStressLevel = 
+  userHoursNeeded = 
   console.log("error occurs for localStorage");
   console.log(exception);
 }
@@ -107,38 +107,32 @@ function getZipcode() {
 
         if (userStressLevel === 4 && userHoursNeeded < 4) {
             request.query = "club"
+            $('#active').text("Let me recommend you some club activities!")
         }
         if (userStressLevel === 3 && userHoursNeeded < 4) {
             request.query = "hike"
+            $('#active').text("Let me recommend you some hike activities!")
         }
         if (userStressLevel === 2 && userHoursNeeded < 4) {
             request.query = "restraunt"
+            $('#active').text("Let me recommend you some eating activities!")
         }
         if (userStressLevel === 1 && userHoursNeeded < 4) {
             request.query = "theather"
+            $('#active').text("Let me recommend you some movie activities!")
         }
 
         if (userHoursNeeded > 4 ){
             request.query = "theme parks"
         }
 
-
+        service.textSearch(request, callback);
         // console.log(document.getElementById('map'));
         // console.log(map)
 
 
-
-  var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyDEhYxSl1yFFuWzmpaqZqgNbh5XBZpUqPI');
-
-
-
-  xhr.done(function(data) {
-    lat = data.results[0].geometry.location.lat;
-    lon = data.results[0].geometry.location.lng;
-    var userLocation = new google.maps.LatLng(lat, lon);
-
-    console.log(userLocation)
-
+    })
+}
 
 
 $(document).ready(function () {
@@ -146,15 +140,13 @@ $(document).ready(function () {
         getZipcode()
         getQuote()
     }
-
-
 })
 
 
 
 
 function initMap() {
-  console.log('initMap');
+//   console.log('initMap');
   var options = {
     zoom: 12,
     center: {
@@ -206,9 +198,19 @@ function addMarker(location) {
 // queryURL= 'https://andruxnet-random-famous-quotes.p.rapidapi.com/?count=10&cat=' + input
 function getQuote() {
 
-
+if (userStressLevel === 1){
+    queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~cheer.json'
+}
+if (userStressLevel === 2){
+    queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~happy.json'
+}
+if (userStressLevel === 3){
+    queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~active.json'
+}
+if (userStressLevel === 4){
     queryURL = 'https://yusufnb-quotes-v1.p.rapidapi.com/widget/~inspire.json'
-
+}
+console.log(queryURL)
     $.ajax({
         url: queryURL,
         headers: {
