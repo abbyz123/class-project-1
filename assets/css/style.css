@@ -16,9 +16,11 @@ h1{
 
 p.lead{
     font-weight: 400;
+
     color: white;
     font-family: 'Sofia';font-size: 18px;
     font-style: italic;
+
 }
 body {
     background-color: transparent;
