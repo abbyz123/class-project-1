@@ -120,7 +120,7 @@ function getZipcode() {
         if (userStressLevel === 1 && userHoursNeeded < 4) {
 
             request.query = "cinema"
-            $('#active').text("Let me recommend you some movie activities!")
+            $('#active').text("Relax, sit back and enjoy a movie")
 
         }
 

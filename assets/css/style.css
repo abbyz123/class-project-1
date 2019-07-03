@@ -44,14 +44,20 @@ height: 400px;
     font-family: 'Bangers';font-size: 22px;
     letter-spacing: 2px;
 }
-
+.quotediv{
+    border: solid 3px white;
+    /* width:400px */
+}
 .qotd{
     font-style: italic;
     font-family: 'Sofia';font-size: 18px;
     width: 400px;
     align-content: center;
     margin: 10px; 
-    color:orangered;
+
+    color: black;
+
+
 }
 
 #textquotes{
